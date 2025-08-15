@@ -1,39 +1,76 @@
-﻿@using ToDoApp.Data
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Controle de Tasks";
 }
+@using ToDoApp.Data
 @model IEnumerable<Tarefa>
 
+<div class="d-flex justify-content-between">
+    <div class="btn-group mb-3" role="group" aria-label="Filtro de tarefas">
+        @foreach (var opcoes in ViewBag.ListaOpcoes)
+        {
+            var isActive = opcoes.Selected ? "active" : "";
+            <a class="btn btn-outline-secondary btn-sm @isActive" asp-action="Index" asp-route-filtro="@opcoes.Value">@opcoes.Text</a>
+        }
+    </div>
 
-<div class="mb-3">
-    <a class="btn btn-primary" asp-action="Create" asp-controller="Tarefa">Nova Tarefa</a>
+    <div class="mb-3">
+        <a class="btn btn-primary btn-sm" asp-action="Create" asp-controller="Tarefa"><i class="fas fa-plus"></i> Nova Tarefa</a>
+    </div>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped small">
     <thead>
         <tr>
-            <th>Título</th>
-            <th>Descrição</th>
-            <th>Concluída</th>
-            <th>Data de Criação</th>
+            <th>@Html.DisplayNameFor(model => model.First().NoTarefa)</th>
+            <th>@Html.DisplayNameFor(model => model.First().NoDescricao)</th>
+            <th>@Html.DisplayNameFor(model => model.First().DtEvento)</th>
+            <th>@Html.DisplayNameFor(model => model.First().DtPrevisaoFinalizacao)</th>
+          
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var tarefa in Model)
         {
-            <tr>
+            var vencida = tarefa.DiasParaPrevisao <= 0 && !tarefa.StConcluida;
+            var concluida = tarefa.StConcluida;
+            <tr class="@(vencida && !concluida ? "bg-danger bg-opacity-25" : "") @(@concluida ? "bg-success bg-opacity-25" : "")">
                 <td>@tarefa.NoTarefa</td>
-                <td>@tarefa.NoDescricao</td>
-                <td>@(tarefa.StConcluida ? "Sim" : "Não")</td>
+                <td>@tarefa.NoDescricao</td>                
                 <td>@tarefa.DtEvento.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@tarefa.Id">Editar</a>
-                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@tarefa.Id">Excluir</a>
+                    @if (tarefa.StConcluida){
+                        <span><i class="fas fa-check"></i> Concluída</span>
+                    } else
+                    {
+                        var dataPrevisao = (@tarefa.DtPrevisaoFinalizacao?.ToString("dd/MM/yyyy") ?? "-");
+                        <span>@dataPrevisao</span>
+                        @if (@tarefa.DiasParaPrevisao > 0)
+                        {
+                            <br />
+                            <span class="fs-8 text-secondary"> Faltam @tarefa.DiasParaPrevisao dia(s)</span>
+                        }
+                        
+                                
+                    }
+                </td>               
+                <td>                    
+                    <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@tarefa.Id"><i class="fas fa-edit"></i> Editar</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@tarefa.Id"> <i class="fas fa-trash-alt"></i> Excluir</a>
+                    @if (!tarefa.StConcluida)
+                    {
+                        <form asp-action="FinishTask" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Concluir</button>
+                        </form>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<style>
+    .table.small th, .table.small td {
+        font-size: 0.85rem;
+    }
+</style>

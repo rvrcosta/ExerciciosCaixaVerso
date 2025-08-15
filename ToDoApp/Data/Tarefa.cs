@@ -21,10 +21,23 @@ namespace ToDoApp.Data
         [Required(ErrorMessage = "Informe a data do evento.")]
         public DateTime DtEvento { get; set; }
 
-        [Display(Name = "Data Previsão Conclusão")]
+        [Display(Name = "Previsão Conclusão")]
         public DateTime? DtPrevisaoFinalizacao { get; set; }
 
         [Display(Name = "Concluída")]
         public bool StConcluida { get; set; }
+
+        [Display(Name = "Dias para Previsão")]
+        public int? DiasParaPrevisao
+        {
+            get
+            {
+                if (DtPrevisaoFinalizacao.HasValue)
+                {
+                    return (DtPrevisaoFinalizacao.Value.Date - DateTime.Now.Date).Days;
+                }
+                return null;
+            }
+        }
     }
 }

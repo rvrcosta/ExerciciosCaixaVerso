@@ -1,8 +1,8 @@
 ﻿@model ToDoApp.Data.Tarefa
 
-<h2>Criar Nova Tarefa</h2>
+<h2>Editar Tarefa </h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
     <div class="row">
         <div class="col-12 mb-2">
             <label asp-for="NoTarefa" class="form-label"></label>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Salvar Tarefa</button>
+    <button type="submit" class="btn btn-primary">Salvar Edição</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>
 

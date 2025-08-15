@@ -1,0 +1,23 @@
+﻿@model ToDoApp.Data.Tarefa
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title text-danger mb-3">Confirmação de Exclusão</h4>
+                    <p class="mb-4">
+                        Tem certeza que deseja excluir a tarefa <strong>@Model.NoTarefa</strong>?
+                    </p>
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
