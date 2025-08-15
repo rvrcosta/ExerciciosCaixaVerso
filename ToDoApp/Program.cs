@@ -1,7 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using ToDoApp.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ToDoDbContext>(option =>
+{
+    var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+    var dbPath = Path.Combine(localAppData, "ToDoApp", "ToDoApp.db");
+option.UseSqlite($"Data Source={dbPath};")
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information);
+});
 
 var app = builder.Build();
 

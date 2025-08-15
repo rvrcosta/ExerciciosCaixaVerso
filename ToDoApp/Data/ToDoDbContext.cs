@@ -4,7 +4,9 @@ namespace ToDoApp.Data
 {
     public class ToDoDbContext : DbContext
     {
-        protected ToDoDbContext()
+        public DbSet<Tarefa> Tarefas => Set<Tarefa>();
+        public ToDoDbContext(DbContextOptions<ToDoDbContext> options)
+           : base(options)
         {
         }
     }
