@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-3 mb-2">
             <label asp-for="DtPrevisaoFinalizacao" class="form-label"></label>
-            <input asp-for="DtPrevisaoFinalizacao" class="form-control" type="date" />
+            <input asp-for="DtPrevisaoFinalizacao" class="form-control" type="date" asp-min="DtEvento" />
             <span asp-validation-for="DtPrevisaoFinalizacao" class="text-danger"></span>
         </div>
         <div class="col-md-3 mb-2 d-flex align-items-center">

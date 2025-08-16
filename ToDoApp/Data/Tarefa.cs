@@ -9,12 +9,12 @@ namespace ToDoApp.Data
 
         [Display(Name = "Tarefa")]
         [Required(ErrorMessage = "O nome da tarefa é obrigatório.")]
-        [MinLength(5)]
+        [MinLength(5, ErrorMessage = "O nome da tarefa deve conter 5 ou mais carateres.")]
         public string NoTarefa { get; set; }
 
         [Display(Name = "Descrição")]
         [Required(ErrorMessage = "A descrição da tarefa é obrigatória.")]
-        [MinLength(5)]
+        [MinLength(5,ErrorMessage = "A descrição da tarefa deve conter 5 ou mais carateres.")]
         public string NoDescricao { get; set; }
 
         [Display(Name = "Data do Evento")]
@@ -22,6 +22,7 @@ namespace ToDoApp.Data
         public DateTime DtEvento { get; set; }
 
         [Display(Name = "Previsão Conclusão")]
+        [DateGreaterThanOrEqual("DtEvento", ErrorMessage = "A previsão de conclusão não pode ser anterior à data do evento.")]
         public DateTime? DtPrevisaoFinalizacao { get; set; }
 
         [Display(Name = "Concluída")]

@@ -20,7 +20,11 @@ namespace ToDoApp.Controllers
                 queryTarefas = queryTarefas.Where(t => t.StConcluida == filtro);
             }
             
-            var tarefas = queryTarefas.ToList();
+            var tarefas = queryTarefas
+                .OrderBy(t => t.StConcluida)
+                .ThenBy(t=>t.DtEvento)
+                
+                .ToList();
 
             List<SelectListItem> listaOpcoes = _context.Tarefas
                 .Select(t => t.StConcluida)

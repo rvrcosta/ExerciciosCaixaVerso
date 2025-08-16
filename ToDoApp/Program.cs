@@ -16,6 +16,10 @@ option.UseSqlite($"Data Source={dbPath};")
 });
 
 var app = builder.Build();
+using var scope = app.Services.CreateScope();
+using var context = scope.ServiceProvider.GetRequiredService<ToDoDbContext>();
+
+context.SeedDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
